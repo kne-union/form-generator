@@ -1,0 +1,24 @@
+.con {
+  &:global {
+    &.ant-tabs {
+      padding: 10px;
+    }
+  }
+}
+
+.panel{
+  width: 100%;
+}
+
+.active-opt{
+  width: 100%;
+  padding: 0 10px;
+}
+
+.active-info {
+  width: 100%;
+  background: #1890ff;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 12px;
+}

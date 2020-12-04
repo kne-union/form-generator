@@ -1,0 +1,563 @@
+[
+  {
+    "title": "栅格组件",
+    "name": "container",
+    "children": [
+      {
+        "title": "行",
+        "fieldName": "Row",
+        "hasChildNodes": true,
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "align": {
+              "title": "垂直对齐方式",
+              "type": "string",
+              "enum": [
+                "top",
+                "middle",
+                "bottom"
+              ],
+              "default": "top"
+            },
+            "justify": {
+              "title": "水平排列方式",
+              "type": "string",
+              "enum": [
+                "start",
+                "end",
+                "center",
+                "space-around",
+                "space-between"
+              ],
+              "default": "start"
+            },
+            "gutter": {
+              "title": "栅格间隔",
+              "type": "string",
+              "default": "0"
+            },
+            "wrap": {
+              "title": "是否自动换行",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      {
+        "title": "列",
+        "fieldName": "Col",
+        "hasChildNodes": true,
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "title": "栅格占位格数",
+              "type": "number"
+            },
+            "offset": {
+              "title": "栅格左侧的间隔格数",
+              "type": "number",
+              "default": 0
+            },
+            "order": {
+              "title": "栅格顺序",
+              "type": "number",
+              "default": 0
+            },
+            "pull": {
+              "title": "栅格向左移动格数",
+              "type": "number",
+              "default": 0
+            },
+            "push": {
+              "title": "栅格向右移动格数",
+              "type": "number",
+              "default": 0
+            },
+            "flex": {
+              "title": "flex 布局属性",
+              "type": "string"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "title": "表单组件",
+    "name": "field",
+    "children": [
+      {
+        "title": "表单",
+        "fieldName": "Form",
+        "hasChildNodes": true,
+        "hidden": true,
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "类型",
+              "type": "string",
+              "enum": [
+                "inline",
+                "default",
+                "inner"
+              ],
+              "default": "default"
+            },
+            "size": {
+              "title": "大小",
+              "type": "string",
+              "enum": [
+                "small",
+                "default",
+                "large"
+              ],
+              "default": "default"
+            },
+            "debug": {
+              "title": "调试模式",
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      {
+        "title": "输入框",
+        "fieldName": "Input",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "类型",
+              "type": "string",
+              "enum": [
+                "text",
+                "password"
+              ],
+              "default": "text"
+            },
+            "placeholder": {
+              "title": "占位字符",
+              "type": "string",
+              "default": "请填写"
+            }
+          }
+        }
+      },
+      {
+        "title": "数字输入框",
+        "fieldName": "InputNumber",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "placeholder": {
+              "title": "占位字符",
+              "type": "string",
+              "default": "请填写"
+            },
+            "max": {
+              "title": "最大值",
+              "type": "number"
+            },
+            "min": {
+              "title": "最小值",
+              "type": "number"
+            },
+            "step": {
+              "title": "每次改变步数",
+              "type": "number",
+              "default": 1
+            }
+          }
+        }
+      },
+      {
+        "title": "文本框",
+        "fieldName": "TextArea",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "placeholder": {
+              "title": "占位字符",
+              "type": "string",
+              "default": "请填写"
+            },
+            "allowClear": {
+              "title": "清除按钮",
+              "type": "boolean",
+              "default": false
+            },
+            "autoSize": {
+              "title": "自适应高度",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      },
+      {
+        "title": "下拉选择框",
+        "fieldName": "Select",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "placeholder": {
+              "title": "占位字符",
+              "type": "string",
+              "default": "请选择"
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "label": "选项一",
+                  "value": "1"
+                },
+                {
+                  "label": "选项二",
+                  "value": "2"
+                }
+              ]
+            },
+            "allowClear": {
+              "title": "支持清除",
+              "type": "boolean",
+              "default": false
+            },
+            "mode": {
+              "title": "模式为多选或标签",
+              "type": "string",
+              "enum": [
+                "multiple",
+                "tags"
+              ]
+            },
+            "autoClearSearchValue": {
+              "title": "是否在选中项后清空搜索框",
+              "type": "boolean",
+              "default": false
+            },
+            "bordered": {
+              "title": "是否有边框",
+              "type": "boolean",
+              "default": true
+            },
+            "listHeight": {
+              "title": "弹窗滚动高度",
+              "type": "number",
+              "default": 256
+            },
+            "maxTagCount": {
+              "title": "最多显示多少个 tag",
+              "type": "number"
+            },
+            "maxTagTextLength": {
+              "title": "最大显示的 tag 文本长度",
+              "type": "number"
+            }
+          }
+        }
+      },
+      {
+        "title": "单选",
+        "fieldName": "RadioGroup",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "label": "选项一",
+                  "value": "1"
+                },
+                {
+                  "label": "选项二",
+                  "value": "2"
+                }
+              ]
+            },
+            "optionType": {
+              "title": "Radio类型",
+              "type": "string",
+              "enum": [
+                "default",
+                "button"
+              ],
+              "default": "default"
+            },
+            "buttonStyle": {
+              "title": "按钮状态的风格样式",
+              "type": "string",
+              "enum": [
+                "outline",
+                "solid"
+              ],
+              "default": "outline"
+            }
+          }
+        }
+      },
+      {
+        "title": "多选",
+        "fieldName": "CheckboxGroup",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "label": "选项一",
+                  "value": "1"
+                },
+                {
+                  "label": "选项二",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "开关",
+        "fieldName": "Switch",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "checkedChildren": {
+              "title": "选中时的内容",
+              "type": "string"
+            },
+            "unCheckedChildren": {
+              "title": "非选中时的内容",
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "title": "日期",
+        "fieldName": "DatePicker",
+        "outerClassName": "wrappedClassName",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "placeholder": {
+              "title": "占位字符",
+              "type": "string",
+              "default": "请选择"
+            },
+            "picker": {
+              "title": "选择器类型",
+              "type": "string",
+              "enum": [
+                "date",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "default": "date"
+            },
+            "format": {
+              "title": "日期格式",
+              "type": "string",
+              "default": "YYYY-MM-DD"
+            },
+            "showTime": {
+              "title": "增加时间选择功能",
+              "type": "boolean"
+            },
+            "bordered": {
+              "title": "否有边框",
+              "type": "boolean",
+              "default": true
+            },
+            "allowClear": {
+              "title": "是否显示清除按钮",
+              "type": "boolean",
+              "default": true
+            },
+            "showNow": {
+              "title": "是否显示<此刻>按钮",
+              "type": "boolean",
+              "default": true
+            },
+            "showToday": {
+              "title": "是否显示<今天>按钮",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      {
+        "title": "提交按钮",
+        "fieldName": "SubmitButton",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "children": {
+              "title": "文字",
+              "type": "string",
+              "default": "提交"
+            },
+            "type": {
+              "title": "类型",
+              "type": "string",
+              "enum": [
+                "primary",
+                "ghost",
+                "dashed",
+                "link",
+                "text",
+                "default"
+              ],
+              "default": "primary"
+            },
+            "shape": {
+              "title": "形状",
+              "type": "string",
+              "enum": [
+                "circle",
+                "round"
+              ]
+            },
+            "block": {
+              "title": "是否块级",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      },
+      {
+        "title": "重置按钮",
+        "fieldName": "ResetButton",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "children": {
+              "title": "文字",
+              "type": "string",
+              "default": "重置"
+            },
+            "type": {
+              "title": "类型",
+              "type": "string",
+              "enum": [
+                "primary",
+                "ghost",
+                "dashed",
+                "link",
+                "text",
+                "default"
+              ],
+              "default": "default"
+            },
+            "shape": {
+              "title": "形状",
+              "type": "string",
+              "enum": [
+                "circle",
+                "round"
+              ]
+            },
+            "block": {
+              "title": "是否块级",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "title": "修饰组件",
+    "name": "decorator",
+    "children": [
+      {
+        "title": "图片",
+        "fieldName": "Img",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "title": "图片地址",
+              "type": "string"
+            },
+            "mode": {
+              "title": "显示模式",
+              "type": "string",
+              "enum": [
+                "inline-block",
+                "block"
+              ],
+              "default": "inline-block"
+            }
+          }
+        }
+      },
+      {
+        "title": "文字",
+        "fieldName": "Word",
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "children": {
+              "title": "内容",
+              "type": "string",
+              "default": "请修改文字"
+            }
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "title": "字段名",
+      "type": "string"
+    },
+    "label": {
+      "title": "Label",
+      "type": "string"
+    },
+    "rule": {
+      "title": "校验规则",
+      "type": "string"
+    },
+    "important": {
+      "title": "是否重要字段",
+      "type": "boolean"
+    },
+    "ignoreLabelWidth": {
+      "title": "是否忽略label宽度计算",
+      "type": "boolean",
+      "default": false
+    },
+    "labelHidden": {
+      "title": "是否隐藏label显示",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

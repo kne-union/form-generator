@@ -1,0 +1,15 @@
+.main{
+  &:global{
+    &.ant-layout{
+      min-height: 100vh;
+    }
+  }
+}
+
+.body{
+  &:global{
+    &.ant-layout{
+      flex: 1;
+    }
+  }
+}

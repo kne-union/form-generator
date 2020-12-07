@@ -1,12 +1,14 @@
 import React, {useCallback} from 'react';
 import {Space, Row, Col} from "antd";
-import config from '../config.json';
+import {getConfig} from '../../form-render';
 import chunk from 'lodash/chunk';
 import style from './style.module.scss';
 
+const {componentsConfig} = getConfig();
+
 const ComponentList = () => {
     const listRender = useCallback(() => {
-        return config.map(({title, children}) => {
+        return componentsConfig.map(({title, children}) => {
             return <div className={style.con} key={title}>
                 <div className={style['con-title']}>{title}</div>
                 {chunk(children.filter(({hidden}) => hidden !== true), 2).map((item, index) => <Row
@@ -27,17 +29,5 @@ const ComponentList = () => {
 };
 
 export default ComponentList;
-
-
-export const FieldMap = (() => {
-    const output = {};
-    config.forEach(({children}) => {
-        children.forEach((item) => {
-            output[item.fieldName] = item;
-        });
-    });
-
-    return output;
-})();
 
 

@@ -1,10 +1,86 @@
 [
   {
-    "title": "栅格组件",
+    "title": "容器组件",
     "name": "container",
     "children": [
       {
-        "title": "行",
+        "title": "普通容器",
+        "fieldName": "Container",
+        "hasChildNodes": true,
+        "propsSchema": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "title": "显示模式",
+              "type": "string",
+              "enum": [
+                "inline-block",
+                "block"
+              ],
+              "default": "block"
+            }
+          }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            },
+            "textAlign": {
+              "title": "字体对齐",
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "center",
+                "justify",
+                "inherit"
+              ],
+              "default": "inherit"
+            },
+            "border": {
+              "title": "边框",
+              "type": "string",
+              "default": "none"
+            },
+            "borderRadius": {
+              "title": "圆角",
+              "type": "string",
+              "default": ""
+            },
+            "margin": {
+              "title": "margin",
+              "type": "string",
+              "default": ""
+            },
+            "padding": {
+              "title": "padding",
+              "type": "string",
+              "default": ""
+            },
+            "background": {
+              "title": "背景",
+              "type": "string",
+              "default": ""
+            },
+            "boxShadow": {
+              "title": "阴影",
+              "type": "string",
+              "default": ""
+            }
+          }
+        }
+      },
+      {
+        "title": "栅格行",
         "fieldName": "Row",
         "hasChildNodes": true,
         "propsSchema": {
@@ -43,10 +119,67 @@
               "default": true
             }
           }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            },
+            "textAlign": {
+              "title": "字体对齐",
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "center",
+                "justify",
+                "inherit"
+              ],
+              "default": "inherit"
+            },
+            "border": {
+              "title": "边框",
+              "type": "string",
+              "default": "none"
+            },
+            "borderRadius": {
+              "title": "圆角",
+              "type": "string",
+              "default": ""
+            },
+            "margin": {
+              "title": "margin",
+              "type": "string",
+              "default": ""
+            },
+            "padding": {
+              "title": "padding",
+              "type": "string",
+              "default": ""
+            },
+            "background": {
+              "title": "背景",
+              "type": "string",
+              "default": ""
+            },
+            "boxShadow": {
+              "title": "阴影",
+              "type": "string",
+              "default": ""
+            }
+          }
         }
       },
       {
-        "title": "列",
+        "title": "栅格列",
         "fieldName": "Col",
         "hasChildNodes": true,
         "propsSchema": {
@@ -79,6 +212,63 @@
             "flex": {
               "title": "flex 布局属性",
               "type": "string"
+            }
+          }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            },
+            "textAlign": {
+              "title": "字体对齐",
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "center",
+                "justify",
+                "inherit"
+              ],
+              "default": "inherit"
+            },
+            "border": {
+              "title": "边框",
+              "type": "string",
+              "default": "none"
+            },
+            "borderRadius": {
+              "title": "圆角",
+              "type": "string",
+              "default": ""
+            },
+            "margin": {
+              "title": "margin",
+              "type": "string",
+              "default": ""
+            },
+            "padding": {
+              "title": "padding",
+              "type": "string",
+              "default": ""
+            },
+            "background": {
+              "title": "背景",
+              "type": "string",
+              "default": ""
+            },
+            "boxShadow": {
+              "title": "阴影",
+              "type": "string",
+              "default": ""
             }
           }
         }
@@ -474,6 +664,21 @@
               "default": false
             }
           }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            }
+          }
         }
       },
       {
@@ -514,6 +719,21 @@
               "default": false
             }
           }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            }
+          }
         }
       }
     ]
@@ -530,7 +750,13 @@
           "properties": {
             "url": {
               "title": "图片地址",
-              "type": "string"
+              "type": "string",
+              "default": "https://static.knxgalaxy.com/upload_assets/app-manager/6ee5f73171768d4a15eec479ab66d013.png"
+            },
+            "alt": {
+              "title": "图片占位字符",
+              "type": "string",
+              "default": "这是一张图片"
             },
             "mode": {
               "title": "显示模式",
@@ -540,6 +766,46 @@
                 "block"
               ],
               "default": "inline-block"
+            }
+          }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "title": "宽度",
+              "type": "string",
+              "default": "auto"
+            },
+            "height": {
+              "title": "高度",
+              "type": "string",
+              "default": "auto"
+            },
+            "border": {
+              "title": "边框",
+              "type": "string",
+              "default": "none"
+            },
+            "borderRadius": {
+              "title": "圆角",
+              "type": "string",
+              "default": ""
+            },
+            "margin": {
+              "title": "margin",
+              "type": "string",
+              "default": ""
+            },
+            "padding": {
+              "title": "padding",
+              "type": "string",
+              "default": ""
+            },
+            "boxShadow": {
+              "title": "阴影",
+              "type": "string",
+              "default": ""
             }
           }
         }
@@ -554,6 +820,31 @@
               "title": "内容",
               "type": "string",
               "default": "请修改文字"
+            }
+          }
+        },
+        "stylePropsSchema": {
+          "type": "object",
+          "properties": {
+            "fontSize": {
+              "title": "字体大小",
+              "type": "string",
+              "default": ""
+            },
+            "fontFamily": {
+              "title": "字体",
+              "type": "string",
+              "default": ""
+            },
+            "fontWeight": {
+              "title": "字重",
+              "type": "string",
+              "default": ""
+            },
+            "color": {
+              "title": "颜色",
+              "type": "string",
+              "default": ""
             }
           }
         }

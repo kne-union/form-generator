@@ -2,6 +2,7 @@
   "name": "form-generator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kne-union.github.io/form-generator/",
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
     "@kne/react-form-antd": "^1.0.0-alpha.2",

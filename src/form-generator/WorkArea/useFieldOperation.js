@@ -76,12 +76,16 @@ const useFieldOperation = () => {
         setFieldList((oldList) => {
             const list = oldList.slice(0);
             const index = list.findIndex((item) => item.id === activeId);
-            const childrenList = list.filter((item) => item.parentId === activeId);
-            if (index > -1) {
-                list.splice(index, 1);
+            const removeChildren = (id)=>{
+                const childrenList = list.filter((item) => item.parentId === id);
                 childrenList.forEach((item) => {
                     list.splice(list.indexOf(item), 1);
+                    removeChildren(item.id);
                 });
+            };
+            if (index > -1) {
+                list.splice(index, 1);
+                removeChildren(activeId);
             }
             return list;
         });

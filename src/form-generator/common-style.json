@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "className": {
+      "title": "类名",
+      "type": "string",
+      "default": ""
+    }
+  }
+}

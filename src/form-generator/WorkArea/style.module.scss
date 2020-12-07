@@ -7,7 +7,6 @@
 }
 
 .form-outer {
-  //border: dashed 1px #999;
   height: 100%;
   position: relative;
 
@@ -15,6 +14,13 @@
     :global {
       .react-form__field {
         pointer-events: none;
+      }
+
+      .form-render_container{
+        background: rgba(210, 110, 210, 0.2);
+        &:nth-child(even) {
+          background: rgba(160, 160, 210, 0.2);
+        }
       }
 
       .ant-row {

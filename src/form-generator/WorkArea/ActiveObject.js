@@ -3,10 +3,12 @@ import {useAppContext} from "../context";
 import useFieldOperation from "./useFieldOperation";
 import classnames from "classnames";
 import style from "./style.module.scss";
-import {FieldMap} from "../ComponentList";
+import {getComponentMap} from "../../form-render";
 import uniqueId from "lodash/uniqueId";
 import ResizeObserver from 'rc-resize-observer';
 import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EnterOutlined} from "@ant-design/icons";
+
+const ComponentMap = getComponentMap();
 
 const ActiveObject = ({open, children}) => {
     const {fieldList, setFieldList, activeId, setActiveId} = useAppContext();
@@ -74,7 +76,7 @@ const ActiveObject = ({open, children}) => {
             return {
                 id,
                 fieldName,
-                title: FieldMap[fieldName].title,
+                title: ComponentMap[fieldName].title,
                 top: Math.round(targetRect.top - top),
                 left: Math.round(targetRect.left - left),
                 width: Math.round(targetRect.width),
@@ -89,7 +91,7 @@ const ActiveObject = ({open, children}) => {
         return targetList.find(({fieldName, left, top, width, height, outer}) => {
             const clickLeft = e.clientX + document.documentElement.scrollLeft - outer.left,
                 clickTop = e.clientY + document.documentElement.scrollTop - outer.top;
-            return clickLeft > left && clickLeft < left + width && clickTop > top && clickTop < top + height && (!childCheck || FieldMap[fieldName].hasChildNodes);
+            return clickLeft > left && clickLeft < left + width && clickTop > top && clickTop < top + height && (!childCheck || ComponentMap[fieldName].hasChildNodes);
         });
     }, [targetList]);
     useEffect(() => {
@@ -116,12 +118,12 @@ const ActiveObject = ({open, children}) => {
                 e.preventDefault();
             }} onDrop={(e) => {
                 const target = findTarget(e, true);
-                if (target && FieldMap[target.fieldName].hasChildNodes === true) {
+                if (target && ComponentMap[target.fieldName].hasChildNodes === true) {
                     e.stopPropagation();
                     const fieldName = e.dataTransfer.getData("Text");
                     const newId = uniqueId(`${fieldName}_`);
                     setFieldList((oldData) => [...oldData, {
-                        id: newId, parentId: target.id, fieldName, props: {}
+                        id: newId, parentId: target.id, fieldName, props: {}, styleProps: {}
                     }]);
                 }
             }}>
@@ -133,31 +135,32 @@ const ActiveObject = ({open, children}) => {
                 }}>
             <span
                 className={style['tip']}>{currentActive.title}</span>
-                    <span className={style['edit']}>{(currentActive.id === 'root' ? <EnterOutlined rotate={-90} className={style['opt-btn']} onClick={(e) => {
-                        e.stopPropagation();
-                        fieldOperation.toFirstChild();
-                    }}/> : <>
-                        <EnterOutlined rotate={90} className={style['opt-btn']} onClick={(e) => {
-                            e.stopPropagation();
-                            fieldOperation.toSuper();
-                        }}/>
+                    <span className={style['edit']}>{(currentActive.id === 'root' ?
                         <EnterOutlined rotate={-90} className={style['opt-btn']} onClick={(e) => {
                             e.stopPropagation();
                             fieldOperation.toFirstChild();
-                        }}/>
-                        <ArrowUpOutlined className={style['opt-btn']} onClick={(e) => {
-                            e.stopPropagation();
-                            fieldOperation.up();
-                        }}/>
-                        <ArrowDownOutlined className={style['opt-btn']} onClick={(e) => {
-                            e.stopPropagation();
-                            fieldOperation.down();
-                        }}/>
-                        <DeleteOutlined className={style['opt-btn']} onClick={(e) => {
-                            e.stopPropagation();
-                            fieldOperation.del();
-                        }}/>
-                    </>)}</span>
+                        }}/> : <>
+                            <EnterOutlined rotate={90} className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.toSuper();
+                            }}/>
+                            <EnterOutlined rotate={-90} className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.toFirstChild();
+                            }}/>
+                            <ArrowUpOutlined className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.up();
+                            }}/>
+                            <ArrowDownOutlined className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.down();
+                            }}/>
+                            <DeleteOutlined className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.del();
+                            }}/>
+                        </>)}</span>
                 </div> : null}
             </div> : null}
         </div>

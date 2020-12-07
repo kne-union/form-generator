@@ -16,3 +16,5 @@ const FormGenerator = () => {
 };
 
 export default FormGenerator;
+
+export {preset} from '../form-render';

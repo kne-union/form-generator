@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/form-generator/static/css/main.ed545a49.chunk.css",
-    "main.js": "/form-generator/static/js/main.a26fb5d4.chunk.js",
-    "main.js.map": "/form-generator/static/js/main.a26fb5d4.chunk.js.map",
+    "main.js": "/form-generator/static/js/main.4c7b2c7d.chunk.js",
+    "main.js.map": "/form-generator/static/js/main.4c7b2c7d.chunk.js.map",
     "runtime-main.js": "/form-generator/static/js/runtime-main.61ff80bc.js",
     "runtime-main.js.map": "/form-generator/static/js/runtime-main.61ff80bc.js.map",
     "static/css/2.f111baef.chunk.css": "/form-generator/static/css/2.f111baef.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.f111baef.chunk.css",
     "static/js/2.96866392.chunk.js",
     "static/css/main.ed545a49.chunk.css",
-    "static/js/main.a26fb5d4.chunk.js"
+    "static/js/main.4c7b2c7d.chunk.js"
   ]
 }

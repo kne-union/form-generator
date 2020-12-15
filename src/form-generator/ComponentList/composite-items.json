@@ -1,0 +1,72 @@
+[
+  {
+    "title": "提交区域",
+    "type": "Array",
+    "children": [
+      {
+        "id": "Row_123",
+        "parentId": "root",
+        "fieldName": "Row",
+        "depth": 1,
+        "props": {
+          "gutter_type": "array",
+          "gutter": [
+            "10",
+            "0"
+          ]
+        },
+        "styleProps": {}
+      },
+      {
+        "id": "Col_124",
+        "parentId": "Row_123",
+        "fieldName": "Col",
+        "depth": 2,
+        "props": {
+          "span": 12
+        },
+        "styleProps": {}
+      },
+      {
+        "id": "Col_125",
+        "parentId": "Row_123",
+        "fieldName": "Col",
+        "depth": 2,
+        "props": {
+          "span": 12
+        },
+        "styleProps": {}
+      },
+      {
+        "id": "Container_156",
+        "parentId": "Col_124",
+        "fieldName": "Container",
+        "depth": 3,
+        "styleProps": {
+          "textAlign": "right"
+        }
+      },
+      {
+        "id": "Container_157",
+        "parentId": "Col_125",
+        "fieldName": "Container",
+        "depth": 3,
+        "styleProps": {}
+      },
+      {
+        "id": "SubmitButton_163",
+        "parentId": "Container_156",
+        "fieldName": "SubmitButton",
+        "depth": 4,
+        "styleProps": {}
+      },
+      {
+        "id": "ResetButton_164",
+        "parentId": "Container_157",
+        "fieldName": "ResetButton",
+        "depth": 4,
+        "styleProps": {}
+      }
+    ]
+  }
+]

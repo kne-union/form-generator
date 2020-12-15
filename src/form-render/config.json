@@ -86,6 +86,36 @@
         "propsSchema": {
           "type": "object",
           "properties": {
+            "gutter": {
+              "title": "栅格间隔",
+              "anyOf": [
+                {
+                  "title": "数字",
+                  "type": "number"
+                },{
+                  "title": "数组",
+                  "type": "array",
+                  "items": {
+                    "title": "[水平间距, 垂直间距]",
+                    "type": "string"
+                  }
+                },{
+                  "title": "对象",
+                  "type": "object",
+                  "properties": {
+                    "xs": {
+                      "type": "number"
+                    },
+                    "sm": {
+                      "type": "number"
+                    },
+                    "md": {
+                      "type": "number"
+                    }
+                  }
+                }
+              ]
+            },
             "align": {
               "title": "垂直对齐方式",
               "type": "string",
@@ -107,11 +137,6 @@
                 "space-between"
               ],
               "default": "start"
-            },
-            "gutter": {
-              "title": "栅格间隔",
-              "type": "string",
-              "default": "0"
             },
             "wrap": {
               "title": "是否自动换行",
@@ -287,6 +312,16 @@
         "propsSchema": {
           "type": "object",
           "properties": {
+            "size": {
+              "title": "大小",
+              "type": "string",
+              "enum": [
+                "large",
+                "middle",
+                "small"
+              ],
+              "default": "middle"
+            },
             "type": {
               "title": "类型",
               "type": "string",
@@ -294,16 +329,6 @@
                 "inline",
                 "default",
                 "inner"
-              ],
-              "default": "default"
-            },
-            "size": {
-              "title": "大小",
-              "type": "string",
-              "enum": [
-                "small",
-                "default",
-                "large"
               ],
               "default": "default"
             },
@@ -405,13 +430,16 @@
             },
             "options": {
               "type": "array",
+              "title": "选项",
               "items": {
                 "type": "object",
                 "properties": {
                   "label": {
+                    "title": "名称",
                     "type": "string"
                   },
                   "value": {
+                    "title": "值",
                     "type": "string"
                   }
                 }
@@ -474,14 +502,17 @@
           "type": "object",
           "properties": {
             "options": {
+              "title": "选项",
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
                   "label": {
+                    "title": "名称",
                     "type": "string"
                   },
                   "value": {
+                    "title": "值",
                     "type": "string"
                   }
                 }
@@ -526,14 +557,17 @@
           "type": "object",
           "properties": {
             "options": {
+              "title": "选项",
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
                   "label": {
+                    "title": "名称",
                     "type": "string"
                   },
                   "value": {
+                    "title": "值",
                     "type": "string"
                   }
                 }

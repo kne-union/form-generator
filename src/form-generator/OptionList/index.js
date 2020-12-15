@@ -6,7 +6,7 @@ import {renderSchemaFormField} from './SchemaForm';
 import Form from '@kne/react-form-antd';
 import {Tabs, Space, Button, Empty} from 'antd';
 import useFieldOperation from '../WorkArea/useFieldOperation';
-import {EnterOutlined, ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined} from '@ant-design/icons';
+import {EnterOutlined, ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined, SaveOutlined} from '@ant-design/icons';
 import formConfig from '../form-config.json';
 import commonStyleConfig from '../common-style.json';
 import style from './style.module.scss';
@@ -19,7 +19,7 @@ const useFormData = (schema, propsName = 'props') => {
     const {fieldList, setFieldList, activeId} = useAppContext();
     const formRef = useRef(null);
     useEffect(() => {
-        let sub;
+        let sub, sub2;
         if (activeId) {
             const activeItem = fieldList.find((item) => item.id === activeId);
             const schemaProperties = _get(schema, 'properties', {});
@@ -27,22 +27,54 @@ const useFormData = (schema, propsName = 'props') => {
             Object.keys(schemaProperties).forEach((name) => {
                 defaultProps[name] = schemaProperties[name]['default'];
             });
-            setTimeout(() => {
-                if (activeItem) {
-                    formRef.current.data = Object.assign({}, defaultProps, {
-                        name: activeItem.id,
-                        label: ComponentMap[activeItem.fieldName].title
-                    }, _get(activeItem, propsName));
-                }
-            }, 0);
-            sub = formRef.current.emitter.addListener('form-field-validate-complete', ({name, value}) => {
-                console.log(name, value);
+            if (activeItem && formRef.current) {
+                formRef.current.data = Object.assign({}, defaultProps, {
+                    name: activeItem.id,
+                    label: ComponentMap[activeItem.fieldName].title
+                }, formRef.current.data, _get(activeItem, propsName));
+            }
+            sub = formRef.current.emitter.addListener('form-field-validate-complete', ({name, index: SymbolIndex, value}) => {
                 setFieldList((fieldList) => {
                     const activeItem = fieldList.find((item) => item.id === activeId);
                     const index = fieldList.indexOf(activeItem);
                     const newItem = Object.assign({}, activeItem, {
-                        [propsName]: Object.assign({}, activeItem[propsName], {[name]: value})
+                        [propsName]: Object.assign({}, activeItem[propsName], (() => {
+                            const fieldItem = _get(formRef.current.formState, `${name}.data`, {})[SymbolIndex];
+                            if (fieldItem.groupName && name === fieldItem.groupName) {
+                                const fieldValue = _get(formRef.current.data, `${fieldItem.groupName}`, []);
+                                const target = fieldValue.slice(0);
+                                target[fieldItem.index] = value;
+                                return {[fieldItem.groupName]: target};
+                            }
+                            if (fieldItem.groupName) {
+                                const fieldValue = _get(formRef.current.data, `${fieldItem.groupName}`, []);
+                                const target = fieldValue.slice(0);
+                                target[fieldItem.index] = Object.assign({}, target[fieldItem.index], {[name]: value});
+                                return {[fieldItem.groupName]: target};
+                            }
+                            return {[name]: value};
+                        })())
                     });
+
+                    const newFieldList = fieldList.slice(0);
+                    newFieldList.splice(index, 1, newItem);
+                    setFieldList(newFieldList);
+                });
+            });
+
+            sub2 = formRef.current.emitter.addListener('form-group-remove', ({index: groupIndex, name}) => {
+                setFieldList((fieldList) => {
+                    const activeItem = fieldList.find((item) => item.id === activeId);
+                    const index = fieldList.indexOf(activeItem);
+                    const newItem = Object.assign({}, activeItem, {
+                        [propsName]: Object.assign({}, activeItem[propsName], (() => {
+                            const fieldValue = _get(formRef.current.data, `${name}`) || [];
+                            const target = fieldValue.slice(0);
+                            target.splice(groupIndex, 1);
+                            return {[name]: target};
+                        })())
+                    });
+
                     const newFieldList = fieldList.slice(0);
                     newFieldList.splice(index, 1, newItem);
                     setFieldList(newFieldList);
@@ -51,6 +83,7 @@ const useFormData = (schema, propsName = 'props') => {
         }
         return () => {
             sub && sub.remove();
+            sub2 && sub2.remove();
         };
     }, [fieldList, schema, propsName, activeId, setFieldList]);
     return formRef;
@@ -63,14 +96,15 @@ const FieldOptions = () => {
         return _get(ComponentMap, `["${_get(activeItem, 'fieldName')}"].propsSchema`, {});
     }, [fieldList, activeId]);
     const formRef = useFormData(schema);
-    return <Form ref={formRef} type="inner">
-        {Object.keys(_get(schema, 'properties', {})).length === 0 ? <Empty description=""/> : renderSchemaFormField({schema})}
+    return <Form ref={formRef} type="inner" size="small">
+        {Object.keys(_get(schema, 'properties', {})).length === 0 ?
+            <Empty description=""/> : renderSchemaFormField({schema})}
     </Form>
 };
 
 const FormOptions = () => {
     const formRef = useFormData(formConfig);
-    return <Form ref={formRef} type="inner">
+    return <Form ref={formRef} type="inner" size="small">
         {renderSchemaFormField({schema: formConfig})}
     </Form>
 };
@@ -80,9 +114,9 @@ const StyleOptions = () => {
     const schema = useMemo(() => {
         const activeItem = fieldList.find((item) => item.id === activeId);
         return Object.assign({}, commonStyleConfig, _get(ComponentMap, `["${_get(activeItem, 'fieldName')}"].stylePropsSchema`, {}));
-    }, [fieldList, commonStyleConfig, activeId]);
+    }, [fieldList, activeId]);
     const formRef = useFormData(schema, 'styleProps');
-    return <Form ref={formRef} type="inner">
+    return <Form ref={formRef} type="inner" size="small">
         {renderSchemaFormField({schema})}
     </Form>
 };
@@ -109,6 +143,7 @@ const Panel = () => {
                         <Button type="link" icon={<ArrowUpOutlined/>} onClick={fieldOperation.up}/>
                         <Button type="link" icon={<ArrowDownOutlined/>} onClick={fieldOperation.down}/>
                         <Button type="link" icon={<DeleteOutlined/>} onClick={fieldOperation.del}/>
+                        <Button type="link" icon={<SaveOutlined/>} onClick={fieldOperation.save}/>
                     </>}
             </span>
         </Space>

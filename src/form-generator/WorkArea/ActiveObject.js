@@ -3,10 +3,10 @@ import {useAppContext} from "../context";
 import useFieldOperation from "./useFieldOperation";
 import classnames from "classnames";
 import style from "./style.module.scss";
-import {getComponentMap} from "../../form-render";
+import {getComponentMap, isFormField} from "../../form-render";
 import uniqueId from "lodash/uniqueId";
 import ResizeObserver from 'rc-resize-observer';
-import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EnterOutlined} from "@ant-design/icons";
+import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EnterOutlined, SaveOutlined} from "@ant-design/icons";
 
 const ComponentMap = getComponentMap();
 
@@ -64,7 +64,9 @@ const ActiveObject = ({open, children}) => {
         const outerRect = outer.getBoundingClientRect();
         const left = outerRect.left + document.documentElement.scrollLeft;
         const top = outerRect.top + document.documentElement.scrollTop;
-        const output = fieldList.slice(0).reverse().map(({id, fieldName}) => {
+        const output = fieldList.slice(0).sort((a, b) => {
+            return b.depth - a.depth
+        }).map(({id, depth, fieldName}) => {
             const targetDom = outer.querySelector(`.id_${id}`);
             const rect = targetDom.getBoundingClientRect();
             const targetRect = {
@@ -77,6 +79,7 @@ const ActiveObject = ({open, children}) => {
                 id,
                 fieldName,
                 title: ComponentMap[fieldName].title,
+                depth,
                 top: Math.round(targetRect.top - top),
                 left: Math.round(targetRect.left - left),
                 width: Math.round(targetRect.width),
@@ -120,11 +123,38 @@ const ActiveObject = ({open, children}) => {
                 const target = findTarget(e, true);
                 if (target && ComponentMap[target.fieldName].hasChildNodes === true) {
                     e.stopPropagation();
-                    const fieldName = e.dataTransfer.getData("Text");
-                    const newId = uniqueId(`${fieldName}_`);
-                    setFieldList((oldData) => [...oldData, {
-                        id: newId, parentId: target.id, fieldName, props: {}, styleProps: {}
-                    }]);
+                    const transferData = JSON.parse(e.dataTransfer.getData("Text"));
+                    if (transferData.type === 'String') {
+                        const fieldName = transferData.data;
+                        const newId = uniqueId(`${fieldName}_`);
+                        setFieldList((oldData) => [...oldData, {
+                            id: newId,
+                            parentId: target.id,
+                            fieldName,
+                            depth: target.depth + 1,
+                            props: isFormField(fieldName) ? {
+                                label: ComponentMap[fieldName].title,
+                                name: newId
+                            } : {},
+                            styleProps: {}
+                        }]);
+                    } else {
+                        const idsMap = {};
+                        transferData.data.forEach((item) => {
+                            idsMap[item.id] = uniqueId(`${item.fieldName}_`);
+                        });
+                        setFieldList((oldData) => [...oldData, ...transferData.data.map((item) => {
+                            if (item.parentId === 'root') {
+                                item.parentId = target.id;
+                                item.depth = target.depth + 1;
+                            } else {
+                                item.parentId = idsMap[item.parentId];
+                                item.depth = item.depth + target.depth;
+                            }
+                            item.id = idsMap[item.id];
+                            return item;
+                        })]);
+                    }
                 }
             }}>
                 {activeId && currentActive ? <div className={classnames(style['active'])} style={{
@@ -133,8 +163,8 @@ const ActiveObject = ({open, children}) => {
                     width: currentActive.width,
                     height: currentActive.height
                 }}>
-            <span
-                className={style['tip']}>{currentActive.title}</span>
+                <span
+                    className={style['tip']}>{currentActive.title}</span>
                     <span className={style['edit']}>{(currentActive.id === 'root' ?
                         <EnterOutlined rotate={-90} className={style['opt-btn']} onClick={(e) => {
                             e.stopPropagation();
@@ -159,6 +189,10 @@ const ActiveObject = ({open, children}) => {
                             <DeleteOutlined className={style['opt-btn']} onClick={(e) => {
                                 e.stopPropagation();
                                 fieldOperation.del();
+                            }}/>
+                            <SaveOutlined className={style['opt-btn']} onClick={(e) => {
+                                e.stopPropagation();
+                                fieldOperation.save();
                             }}/>
                         </>)}</span>
                 </div> : null}

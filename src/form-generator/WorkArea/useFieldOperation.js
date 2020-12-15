@@ -1,11 +1,12 @@
-import {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useAppContext} from "../context";
 import findLastIndex from 'lodash/findLastIndex';
 import findIndex from 'lodash/findIndex';
+import {FormModal, Input} from '@kne/react-form-antd';
 
 
 const useFieldOperation = () => {
-    const {setFieldList, fieldList, activeId, setActiveId} = useAppContext();
+    const {setFieldList, fieldList, activeId, setActiveId, saveCompositeItems, compositeItems} = useAppContext();
     const toSuper = useCallback(() => {
         if (!activeId || activeId === 'root') {
             return;
@@ -46,7 +47,6 @@ const useFieldOperation = () => {
                 list[targetIndex] = list[index];
                 list[index] = targetItem;
             }
-
             return list;
         });
     }, [activeId, setFieldList]);
@@ -76,7 +76,7 @@ const useFieldOperation = () => {
         setFieldList((oldList) => {
             const list = oldList.slice(0);
             const index = list.findIndex((item) => item.id === activeId);
-            const removeChildren = (id)=>{
+            const removeChildren = (id) => {
                 const childrenList = list.filter((item) => item.parentId === id);
                 childrenList.forEach((item) => {
                     list.splice(list.indexOf(item), 1);
@@ -90,14 +90,52 @@ const useFieldOperation = () => {
             return list;
         });
     }, [activeId, setActiveId, setFieldList]);
+    const save = useCallback(() => {
+        const modal = FormModal.modal({
+            title: '请输入组件名',
+            content: <Input name="fieldName" label="组件名" rule="REQ LEN-0-10 NO_REACT"/>,
+            formProps: {
+                rules: {
+                    'NO_REACT': (value) => {
+                        if (!!compositeItems.find((item) => item.title === value)) {
+                            return {result: false, msg: "%s不能跟已有组件重复"};
+                        }
+                        return {result: true};
+                    }
+                },
+                onSubmit: (data) => {
+                    const targetList = [];
+                    const findChildren = (id, depth) => {
+                        const current = fieldList.find((item) => item.id === id);
+                        const children = fieldList.filter((item) => item.parentId === id);
+                        targetList.push(Object.assign({}, current, {depth}));
+                        if (children.length > 0) {
+                            children.forEach((item) => {
+                                findChildren(item.id, depth + 1);
+                            });
+                        }
+                    };
+                    findChildren(activeId, 1);
+                    const targetIndex = targetList.findIndex(({id}) => id === activeId);
+                    targetList[targetIndex].parentId = 'root';
+                    saveCompositeItems({
+                        title: data.fieldName,
+                        children: targetList
+                    });
+                    modal.destroy();
+                }
+            }
+        });
+    }, [activeId, fieldList, compositeItems, saveCompositeItems]);
     return useMemo(() => ({
         toRoot,
         toSuper,
         toFirstChild,
         up,
         down,
-        del
-    }), [toRoot, toSuper, toFirstChild, up, down, del]);
+        del,
+        save
+    }), [toRoot, toSuper, toFirstChild, up, down, del, save]);
 };
 
 export default useFieldOperation;

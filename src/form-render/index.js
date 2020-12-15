@@ -77,4 +77,4 @@ const FormRender = (props) => {
 
 export default FormRender;
 
-export {default as preset, getConfig, getComponentMap} from './preset';
+export {default as preset, getConfig, getComponentMap, isFormField} from './preset';

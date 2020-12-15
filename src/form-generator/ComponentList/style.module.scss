@@ -12,8 +12,31 @@
   cursor: move;
 }
 
-.con-content{
+.con-content {
   border-radius: 2px;
   border: solid 1px #ccc;
   background: #f8f8f8;
+  position: relative;
+}
+
+.con-content-inner{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.con-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background: #ccc;
+  border-radius: 50%;
+  padding: 2px;
+  font-size: 10px;
+  &:global{
+    &.anticon{
+      color:#fff;
+    }
+  }
 }

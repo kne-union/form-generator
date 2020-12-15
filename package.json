@@ -5,7 +5,7 @@
   "homepage": "https://kne-union.github.io/form-generator/",
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
-    "@kne/react-form-antd": "^1.0.0-alpha.2",
+    "@kne/react-form-antd": "^1.0.0-alpha.6",
     "@kne/text-width": "^0.1.0",
     "@kne/use-click-outside": "^0.1.0",
     "@knx/core-framework": "^0.2.48",

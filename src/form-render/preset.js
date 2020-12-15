@@ -33,3 +33,7 @@ const _getComponentMap = memoize((componentsConfig) => {
 export const getComponentMap = () => {
     return _getComponentMap(getConfig().componentsConfig);
 };
+
+export const isFormField = (name) => {
+    return !!getConfig().fields[name];
+}
